@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALQUIPC - Facturación</title>
+  <!-- Enlaza el archivo CSS externo -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <header class="hero">
+    <h1>Bienvenido a ALQUIPC</h1>
+    <p>Alquiler de portátiles por días. ¡Rápido, fácil y sostenible!</p>
+    <button id="irFacturacion" class="btn">Ir a Facturación</button>
+  </header>
+
+  <main id="facturacionSection" class="hidden">
+    <h2>Formulario de Facturación</h2>
+    <form id="facturaForm">
+      <div class="form-group">
+        <label for="clienteId">ID Cliente</label>
+        <input type="text" id="clienteId" readonly>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Cliente</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="numEquipos">Número de equipos</label>
+        <input type="number" id="numEquipos" min="2" required>
+      </div>
+      <div class="form-group">
+        <label for="diasIniciales">Días iniciales de alquiler</label>
+        <input type="number" id="diasIniciales" min="1" required>
+      </div>
+      <div class="form-group">
+        <label for="diasAdicionales">Días adicionales</label>
+        <input type="number" id="diasAdicionales" min="0" value="0" required>
+      </div>
+      <div class="form-group">
+        <label for="tipoAlquiler">Opción de alquiler</label>
+        <select id="tipoAlquiler" required>
+          <option value="">-- Selecciona --</option>
+          <option value="ciudad">Dentro de la ciudad</option>
+          <option value="fuera">Fuera de la ciudad</option>
+          <option value="local">Dentro del local</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Calcular Factura</button>
+    </form>
+
+    <section id="resultadoFactura" class="hidden">
+      <h3>Resumen de Factura</h3>
+      <div id="resumenDatos"></div>
+      <button id="enviarEmail" class="btn">Enviar Factura por Email</button>
+      <div id="mensajeEnviado"></div>
+    </section>
+  </main>
+
+  <!-- Enlaza el archivo JS externo -->
+  <script src="./js/factura.js"></script>
+</body>
+
+</html>
