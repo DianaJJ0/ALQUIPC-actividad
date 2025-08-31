@@ -1,58 +1,111 @@
-# 💻 ALQUIPC - Facturación de alquiler de portátiles
-
-**Proyecto funcional y listo para desplegar en GitHub Pages.**
+# 💻 ALQUIPC - Aplicativo de Facturación de Alquiler de Portátiles
 
 ---
 
-## ✨ Características principales
+## 📋 Descripción General
 
-- Calcula el valor del alquiler según las reglas de negocio:
-    - Cada equipo cuesta $35.000 por día.
-    - Mínimo 2 equipos por alquiler.
-    - Opciones de alquiler: dentro de la ciudad, fuera de la ciudad (+5%), dentro del local (-5%).
-    - Descuentos por días adicionales: 2% a 5% según rango.
-- Generación automática de ID de cliente.
-- Validación de datos esenciales.
-- Simulación de envío de factura por email.
-- Diseño responsive y agradable.
+Este proyecto es un aplicativo web desarrollado para la empresa **ALQUIPC**, dedicada al alquiler de equipos portátiles por días. El sistema permite calcular de forma automática el valor a cancelar por cada cliente, según las reglas de negocio, y simula el envío de la factura por correo electrónico.
+Se ha construido aplicando los estándares de calidad definidos en la norma **McCall**, garantizando corrección, fiabilidad y eficiencia en cada proceso.
 
 ---
 
-## 🚀 Cómo usarlo
+## 🧠 Reglas de Negocio Implementadas
 
-1. Abre `index.html` en tu navegador.
-2. Haz clic en "Ir a Facturación" y llena el formulario.
-3. Presiona "Calcular Factura" para ver el resumen.
-4. Presiona "Enviar Factura por Email" para simular el envío.
+**1. Valor base del alquiler:**
+- **Cada equipo cuesta $35.000 por día.**
+- El cliente debe alquilar **mínimo 2 equipos** por operación.
+
+**2. Días iniciales y adicionales:**
+- El cliente elige los días iniciales de alquiler (**mínimo 1 día**).
+- Puede agregar días adicionales.
+- Por cada día adicional se aplica un **descuento escalonado**:
+  - **1 a 3 días adicionales:** 2% de descuento sobre esos días.
+  - **4 a 7 días adicionales:** 3% de descuento sobre esos días.
+  - **8 a 15 días adicionales:** 4% de descuento sobre esos días.
+  - **Más de 15 días adicionales:** 5% de descuento sobre esos días.
+
+**3. Opción de alquiler:**
+- **Dentro de la ciudad:** Precio normal.
+- **Fuera de la ciudad:** Se incrementa **5%** sobre el total por concepto de domicilio.
+- **Dentro del local:** Se descuenta **5%** sobre el total por uso interno.
+
+**4. Identificación del cliente:**
+- Al iniciar la facturación, se genera automáticamente un **ID único** para el cliente, con formato:
+  `ALQ-2025-XXXXX`
+
+**5. Facturación y simulación de envío:**
+- La factura NO se imprime ni guarda físicamente, en coherencia con la política de reciclaje de papel de ALQUIPC.
+- El sistema muestra en pantalla y simula el envío por email de:
+  - Opción de alquiler seleccionada
+  - Número de equipos
+  - Días iniciales y días adicionales (con descuento aplicado)
+  - Incrementos o descuentos según la opción
+  - **Valor total a cancelar**
 
 ---
 
-## 🌐 ¿Cómo publicarlo en GitHub Pages?
+## 🚀 Instrucciones de Instalación y Uso
 
-1. **Sube la carpeta completa** a un repositorio nuevo en GitHub (por ejemplo, `alquipc`).
-2. Ve a **Settings > Pages** en el repositorio.
-3. Selecciona la rama (`main`) y la carpeta raíz `/` como fuente.
-4. Guarda y espera unos segundos.
-5. Tu app estará disponible en la URL pública que te da GitHub Pages.
-
----
-
-## 📏 Norma McCall aplicada
-
-- **Corrección:** Validación completa de datos de entrada (equipos, email)
-- **Fiabilidad:** Sistema de cálculo robusto con reglas de negocio claras
-- **Eficiencia:** Código optimizado con funciones reutilizables
-
----
-
-## 🎨 Tecnologías usadas
-
-- HTML5
-- CSS3
-- JavaScript
+1. **Descarga o clona el repositorio completo.**
+2. **Estructura de carpetas:**
+   ```
+   alquipc/
+   ├── index.html
+   ├── css/
+   │   └── styles.css
+   ├── js/
+   │   └── factura.js
+   └── README.md
+   ```
+3. **Abre `index.html`** en tu navegador preferido.
+4. **Sigue el flujo:**
+   - Haz clic en "Ir a Facturación".
+   - Llena el formulario con los datos del cliente y alquiler.
+   - Presiona "Calcular Factura" para ver el resumen detallado de la factura.
+   - Presiona "Enviar Factura por Email" para simular el envío (aparece un mensaje en pantalla).
 
 ---
 
-## 📝 Sustentación final
+## 🌐 Publicación en GitHub Pages
 
-La explicación de la norma McCall y su aplicación se presenta en el cuaderno, según las instrucciones de clase.
+1. Sube la carpeta completa a un repositorio público en GitHub.
+2. Ve a **Settings > Pages** en tu repositorio.
+3. Elige la rama `main` y la carpeta raíz `/` como fuente.
+4. Guarda los cambios.
+5. Accede a la URL pública que te da GitHub Pages para visualizar el aplicativo en línea.
+
+---
+
+## 🏅 Norma McCall aplicada en el desarrollo
+
+- **Corrección:**
+  Validaciones estrictas en todos los campos del formulario; cálculo exacto y validado de descuentos/incrementos.
+- **Fiabilidad:**
+  Simulación robusta del proceso de facturación, evitando errores de cálculo y garantizando exactitud.
+- **Eficiencia:**
+  Código optimizado y modular en HTML, CSS y JavaScript; separación de responsabilidades y carga eficiente de recursos.
+
+---
+
+## 🛠 Tecnologías Utilizadas
+
+- **HTML5:** Estructura semántica y clara.
+- **CSS3:** Diseño responsivo y estético.
+- **JavaScript:** Lógica de negocio, validaciones y simulación de envío.
+
+---
+
+## 📚 Detalles relevantes
+
+- El aplicativo **NO imprime recibos**, solo muestra la factura y simula el envío.
+- Los datos solo existen mientras la página está abierta; no se guardan en base de datos ni en el servidor.
+- El código es **limpio, autocontenible y didáctico** para facilitar el aprendizaje y la evaluación.
+- Se puede adaptar fácilmente para futuras mejoras o integración con otros sistemas.
+
+---
+
+## 👩‍🏫 Sustentación escrita
+
+La explicación y análisis de la aplicación de la norma McCall se realiza por escrito en el cuaderno, como parte de la entrega académica.
+
+---
