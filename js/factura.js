@@ -55,17 +55,21 @@ document.getElementById("facturaForm").onsubmit = function (event) {
   let valorAdicional = precioPorDia * numEquipos * diasAdicionales;
 
   // Descuento por días adicionales según rango
-  let descuentoAdicional = 0;
-  if (diasAdicionales >= 1 && diasAdicionales <= 3) descuentoAdicional = 0.02;
+  let descuentoAdicionalPorcentaje = 0;
+  if (diasAdicionales >= 1 && diasAdicionales <= 3)
+    descuentoAdicionalPorcentaje = 0.02;
   else if (diasAdicionales >= 4 && diasAdicionales <= 7)
-    descuentoAdicional = 0.03;
+    descuentoAdicionalPorcentaje = 0.03;
   else if (diasAdicionales >= 8 && diasAdicionales <= 15)
-    descuentoAdicional = 0.04;
-  else if (diasAdicionales > 15) descuentoAdicional = 0.05;
+    descuentoAdicionalPorcentaje = 0.04;
+  else if (diasAdicionales > 15) descuentoAdicionalPorcentaje = 0.05;
 
-  const descAdicionalValor = valorAdicional * descuentoAdicional;
+  // Calcula el descuento por días adicionales y aplica tope de $200.000
+  let descAdicionalValor = valorAdicional * descuentoAdicionalPorcentaje;
+  if (descAdicionalValor > 200000) descAdicionalValor = 200000;
   valorAdicional -= descAdicionalValor;
 
+  // Calcula incrementos y descuentos según modalidad, aplicando tope de $150.000 al descuento de local
   let incremento = 0,
     descuento = 0,
     tipo = "";
@@ -76,7 +80,8 @@ document.getElementById("facturaForm").onsubmit = function (event) {
     tipo = "Fuera de la ciudad (+5% domicilio)";
   } else if (tipoAlquiler === "local") {
     descuento = (valorBase + valorAdicional) * 0.05;
-    tipo = "Dentro del local (-5% descuento)";
+    if (descuento > 150000) descuento = 150000;
+    tipo = "Dentro del local (-5% descuento, máximo $150.000)";
   }
 
   const total = valorBase + valorAdicional + incremento - descuento;
@@ -97,6 +102,7 @@ document.getElementById("facturaForm").onsubmit = function (event) {
 
 // Muestra el resumen de la factura en el elemento correspondiente
 function mostrarFactura(data) {
+  // Construye el resumen con formato HTML
   const resumen = `
     <b>Email:</b> ${data.email}<br>
     <b>Número de equipos:</b> ${data.numEquipos}<br>
@@ -104,13 +110,15 @@ function mostrarFactura(data) {
     <b>Días adicionales:</b> ${data.diasAdicionales}
       ${
         data.descAdicionalValor > 0
-          ? `(Descuento aplicado: $${data.descAdicionalValor.toFixed(0)})`
+          ? `(Descuento aplicado: $${data.descAdicionalValor.toFixed(
+              0
+            )}, máximo $200.000)`
           : ""
       }<br>
     <b>Tipo de alquiler:</b> ${data.tipo}<br>
     ${
       data.incremento > 0
-        ? `<b>Incremento por domicilio:</b> $${data.incremento.toFixed(0)}<br>`
+        ? `<b>Incremento por domicilio:</b> $${data.incremento.toFixed(0)}<br>` // Solo si aplica incremento
         : ""
     }
     ${
@@ -120,8 +128,9 @@ function mostrarFactura(data) {
     }
     <b>Total a cancelar:</b> <span style="color:green;font-weight:bold;">$${data.total.toFixed(
       0
-    )}</span><br>
-  `;
+    )}</span><br>`; // Muestra total en verde y negrita
+
+  // Muestra el resumen y oculta el mensaje de envío previo si existía
   document.getElementById("resumenDatos").innerHTML = resumen;
   document.getElementById("resultadoFactura").classList.remove("hidden");
   document.getElementById("mensajeEnviado").textContent = "";
